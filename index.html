@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="siteTitle">Maison & Co. | Luxury Couture Boutique</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            950: '#0F051D',
+                            900: '#1A0B2E',
+                            800: '#2A1245',
+                            700: '#3B1A60',
+                            400: '#9D65C9',
+                        },
+                        gold: {
+                            300: '#F5E396',
+                            400: '#E5C158',
+                            500: '#D4AF37',
+                            600: '#B89028',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .bg-purple-gradient { background: linear-gradient(135deg, #0F051D 0%, #1A0B2E 50%, #2A1245 100%); }
+        .hero-overlay { background: linear-gradient(180deg, rgba(15, 5, 29, 0.45) 0%, rgba(15, 5, 29, 0.95) 100%); }
+        .card-glow { box-shadow: 0 10px 30px -10px rgba(157, 101, 201, 0.15); }
+        .card-glow:hover { box-shadow: 0 20px 40px -10px rgba(157, 101, 201, 0.35); }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.88; transform: scale(1.02); }
+        }
+        .pulse-btn { animation: pulse-subtle 3s infinite ease-in-out; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F051D; }
+        ::-webkit-scrollbar-thumb { background: #2A1245; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3B1A60; }
+    </style>
+</head>
+<body class="bg-purple-950 text-gray-100 font-sans antialiased selection:bg-purple-400 selection:text-purple-950 min-h-screen flex flex-col justify-between">
+
+    <!-- Announcement Banner -->
+    <div id="offerBanner" class="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-b border-purple-700/50 text-gold-400 text-xs py-2 px-4 text-center tracking-widest uppercase font-medium flex flex-wrap items-center justify-center gap-3 transition-all duration-300">
+        <span id="offerBannerText">✨ Festive Sale: Up to 25% OFF on Luxe Silk Collections</span>
+        <span class="hidden md:inline text-purple-400/50">|</span>
+        <span id="timerContainer" class="text-white font-mono bg-purple-950/80 px-2.5 py-1 rounded-md border border-gold-500/30 flex items-center gap-1">
+            <i class="fa-regular fa-clock text-gold-400 text-[11px] mr-1"></i>
+            Ends in: <span id="timerHours">04</span>h : <span id="timerMins">28</span>m : <span id="timerSecs">45</span>s
+        </span>
+        <button onclick="openVipModal()" class="underline text-white hover:text-gold-400 ml-1 font-bold transition">Claim VIP Voucher</button>
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 bg-purple-950/85 backdrop-blur-md border-b border-purple-800/40">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="text-2xl font-serif font-bold tracking-wider uppercase text-white hover:opacity-90 transition" id="brandLogoText">
+                Maison <span class="text-gold-400">&</span> Co.
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase text-purple-200">
+                <a href="#collections" class="hover:text-gold-400 transition">New Arrivals</a>
+                <a href="#features" class="hover:text-gold-400 transition">Why Us</a>
+                <a href="#reviews" class="hover:text-gold-400 transition">Client Reviews</a>
+                <a id="headerWaCommunityBtn" href="https://chat.whatsapp.com" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5 font-bold">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Join VIP Club
+                </a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleCartDrawer(true)" class="relative p-2 text-purple-200 hover:text-gold-400 transition" aria-label="View Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cartCount" class="absolute -top-1 -right-1 bg-gold-500 text-purple-950 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
+                </button>
+
+                <button onclick="openVipModal()" id="heroOfferBtnNav" class="hidden sm:inline-block bg-gradient-to-r from-gold-500 to-gold-600 text-purple-950 px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase hover:brightness-110 transition shadow-lg">
+                    Get Offer
+                </button>
+
+                <button class="md:hidden text-xl text-purple-200 hover:text-white" id="menuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-purple-900/95 text-gray-200 px-6 py-6 space-y-4 font-serif text-lg border-b border-purple-700/60 backdrop-blur-lg">
+        <a href="#collections" onclick="toggleMobileMenu()" class="block hover:text-gold-400">New Arrivals</a>
+        <a href="#features" onclick="toggleMobileMenu()" class="block hover:text-gold-400">Why Us</a>
+        <a href="#reviews" onclick="toggleMobileMenu()" class="block hover:text-gold-400">Reviews</a>
+        <a id="mobileWaCommunityBtn" href="https://chat.whatsapp.com" target="_blank" class="block text-emerald-400 font-sans font-bold text-sm hover:text-emerald-300 flex items-center gap-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i> Join WhatsApp Community
+        </a>
+    </div>
+
+    <!-- Hero Banner Section -->
+    <section class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center bg-cover bg-center text-white" id="heroSection" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600');">
+        <div class="absolute inset-0 hero-overlay"></div>
+        <div class="relative max-w-4xl mx-auto text-center px-6 py-20 z-10 space-y-6">
+            <div class="inline-block bg-purple-950/80 border border-gold-500/30 px-4 py-1.5 rounded-full backdrop-blur-md">
+                <span id="heroTagline" class="text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold">Festive Luxury Collection 2026</span>
+            </div>
+            <h1 id="heroTitle" class="text-4xl md:text-7xl font-serif font-bold leading-tight bg-gradient-to-r from-white via-purple-100 to-gold-400 bg-clip-text text-transparent drop-shadow-sm">
+                Elegance Wrapped in Mystique
+            </h1>
+            <p id="heroSubtitle" class="text-base md:text-xl font-light text-purple-200/90 max-w-2xl mx-auto leading-relaxed">
+                Handcrafted sarees, tailored silk silhouettes, and royal velvet couture designed for special moments.
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#collections" class="w-full sm:w-auto bg-gradient-to-r from-gold-500 to-gold-600 text-purple-950 font-bold px-8 py-4 rounded-full text-xs tracking-widest uppercase hover:brightness-110 transition shadow-xl pulse-btn text-center">
+                    Explore Collection
+                </a>
+                <a id="heroWhatsappBtn" href="https://wa.me/919876543210?text=Hello%20Maison%20%26%20Co.,%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20collection." target="_blank" class="w-full sm:w-auto border border-purple-400/40 hover:border-gold-400 text-purple-200 px-8 py-4 rounded-full text-xs tracking-widest uppercase hover:text-gold-400 transition bg-purple-950/50 backdrop-blur-md flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg text-emerald-400"></i> WhatsApp Enquiry
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Features Banner -->
+    <section id="features" class="border-y border-purple-800/40 bg-purple-900/20 py-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="p-3 space-y-2">
+                <div class="w-10 h-10 mx-auto bg-purple-800/50 rounded-full flex items-center justify-center text-gold-400 text-base">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <h4 class="font-serif font-bold text-sm text-white">100% Authentic Silk</h4>
+                <p class="text-xs text-purple-300/70">Certified luxury textiles</p>
+            </div>
+            <div class="p-3 space-y-2">
+                <div class="w-10 h-10 mx-auto bg-purple-800/50 rounded-full flex items-center justify-center text-gold-400 text-base">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h4 class="font-serif font-bold text-sm text-white">Worldwide Express</h4>
+                <p class="text-xs text-purple-300/70">Insured global dispatch</p>
+            </div>
+            <div class="p-3 space-y-2">
+                <div class="w-10 h-10 mx-auto bg-purple-800/50 rounded-full flex items-center justify-center text-gold-400 text-base">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <h4 class="font-serif font-bold text-sm text-white">Personal Concierge</h4>
+                <p class="text-xs text-purple-300/70">Instant WhatsApp support</p>
+            </div>
+            <div class="p-3 space-y-2">
+                <div class="w-10 h-10 mx-auto bg-purple-800/50 rounded-full flex items-center justify-center text-gold-400 text-base">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <h4 class="font-serif font-bold text-sm text-white">Custom Fitting</h4>
+                <p class="text-xs text-purple-300/70">Tailored to perfection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Product Catalog Grid -->
+    <section id="collections" class="py-20 max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-xl mx-auto mb-16 space-y-2">
+            <span class="text-xs font-semibold tracking-widest uppercase text-purple-400">Handcrafted Couture</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">Curated Bestsellers</h2>
+            <p class="text-purple-200/70 text-sm">Discover royal edits, bespoke embroidery, and luxury heritage garments.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="productsGrid">
+            <!-- Dynamic products will render here automatically via syncFromStorage JS -->
+        </div>
+    </section>
+
+    <!-- VIP Reviews Section -->
+    <section id="reviews" class="py-20 bg-purple-gradient border-y border-purple-800/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 space-y-2">
+                <span class="text-xs font-semibold tracking-widest uppercase text-purple-400">Client Testimonials</span>
+                <h2 class="text-3xl font-serif font-bold text-white">Words From Our VIP Clientele</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-purple-900/30 border border-purple-800/50 p-6 rounded-2xl backdrop-blur-sm">
+                    <div class="text-gold-400 text-sm mb-3">★★★★★</div>
+                    <p class="text-sm text-purple-200/90 italic leading-relaxed">"Exceeds expectations! The silk shine and weight are truly regal. Ordering directly via WhatsApp concierge was effortless."</p>
+                    <div class="mt-6 pt-4 border-t border-purple-800/40 flex items-center justify-between">
+                        <span class="font-serif font-bold text-white text-sm">Ananya Sharma</span>
+                        <span class="text-[10px] text-emerald-400 uppercase font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Client</span>
+                    </div>
+                </div>
+                <div class="bg-purple-900/30 border border-purple-800/50 p-6 rounded-2xl backdrop-blur-sm">
+                    <div class="text-gold-400 text-sm mb-3">★★★★★</div>
+                    <p class="text-sm text-purple-200/90 italic leading-relaxed">"Ordered custom festive wear through their WhatsApp team. The fitting consultation was so personal and the final piece fitted flawlessly."</p>
+                    <div class="mt-6 pt-4 border-t border-purple-800/40 flex items-center justify-between">
+                        <span class="font-serif font-bold text-white text-sm">Pooja K.</span>
+                        <span class="text-[10px] text-emerald-400 uppercase font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Client</span>
+                    </div>
+                </div>
+                <div class="bg-purple-900/30 border border-purple-800/50 p-6 rounded-2xl backdrop-blur-sm">
+                    <div class="text-gold-400 text-sm mb-3">★★★★★</div>
+                    <p class="text-sm text-purple-200/90 italic leading-relaxed">"My absolute go-to for bespoke luxury couture. Outstanding craftsmanship, rich fabrics, and opulent packaging!"</p>
+                    <div class="mt-6 pt-4 border-t border-purple-800/40 flex items-center justify-between">
+                        <span class="font-serif font-bold text-white text-sm">Meera Verma</span>
+                        <span class="text-[10px] text-emerald-400 uppercase font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified Client</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Shopping Cart Drawer -->
+    <div id="cartDrawer" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex justify-end transition-opacity">
+        <div class="w-full max-w-md bg-purple-950 h-full shadow-2xl flex flex-col border-l border-purple-800/60">
+            <div class="p-6 border-b border-purple-800/60 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-gold-400"></i> Your Shopping Bag
+                </h3>
+                <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-white text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items rendered dynamically -->
+            </div>
+
+            <div class="p-6 border-t border-purple-800/60 bg-purple-900/30 space-y-4">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-400">Subtotal</span>
+                    <span id="cartSubtotal" class="font-serif font-bold text-xl text-gold-400">₹0</span>
+                </div>
+                <p class="text-xs text-purple-300/60">Taxes and luxury shipping calculated at WhatsApp checkout.</p>
+                <button onclick="checkoutWhatsApp()" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:brightness-110 text-white font-bold py-3.5 rounded-full text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg transition">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Checkout on WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIP Voucher Modal -->
+    <div id="vipModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-purple-900 border border-purple-700/60 rounded-3xl max-w-md w-full p-8 text-center relative shadow-2xl">
+            <button onclick="closeVipModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <div class="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto text-gold-400 text-xl mb-4">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-white mb-2">Join VIP Concierge</h3>
+            <p class="text-xs text-purple-200/80 mb-6">Unlock an instant 15% luxury voucher code for your first purchase.</p>
+            
+            <form onsubmit="submitVipForm(event)" class="space-y-4">
+                <input type="text" id="vipName" placeholder="Your Full Name" required class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                <input type="tel" id="vipPhone" placeholder="WhatsApp Number" required class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                <button type="submit" class="w-full bg-gradient-to-r from-gold-500 to-gold-600 text-purple-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest hover:brightness-110 transition shadow-lg">
+                    Claim VIP Access
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a id="floatingWhatsappBtn" href="https://wa.me/919876543210" target="_blank" class="fixed bottom-6 right-6 z-30 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-2xl transition-transform hover:scale-110" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer Section -->
+    <footer class="bg-purple-950 border-t border-purple-800/40 py-16 text-xs text-purple-300/70">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="space-y-4 md:col-span-1">
+                <a href="#" class="text-xl font-serif font-bold text-white tracking-wider uppercase" id="footerBrandLogo">
+                    Maison <span class="text-gold-400">&</span> Co.
+                </a>
+                <p id="footerSubtitle" class="text-purple-200/60 leading-relaxed">Defining modern elegance with handcrafted heritage silks and bespoke couture.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#collections" class="hover:text-gold-400 transition">New Arrivals</a></li>
+                    <li><a href="#features" class="hover:text-gold-400 transition">Boutique Features</a></li>
+                    <li><a href="#reviews" class="hover:text-gold-400 transition">Client Reviews</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Boutique Contact</h4>
+                <p class="mb-2"><i class="fa-solid fa-location-dot mr-2 text-gold-400"></i> High Street Atelier, Main Avenue</p>
+                <p class="mb-2"><i class="fa-solid fa-phone mr-2 text-gold-400"></i> <span id="footerPhone">+91 98765 43210</span></p>
+                <p><i class="fa-solid fa-envelope mr-2 text-gold-400"></i> <span id="footerEmail">concierge@maisonboutique.com</span></p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Connect With Us</h4>
+                <div class="flex space-x-4 text-lg">
+                    <a id="footerInstagram" href="https://instagram.com" target="_blank" class="hover:text-gold-400 transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a id="footerFacebook" href="https://facebook.com" target="_blank" class="hover:text-gold-400 transition" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a id="footerWhatsapp" href="https://wa.me/919876543210" target="_blank" class="hover:text-gold-400 transition" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-12 pt-6 border-t border-purple-900 text-center text-purple-400/50">
+            &copy; 2026 <span id="footerCopyrightName">Maison & Co.</span> All Rights Reserved. Crafted with Luxury in Mind.
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic & Real-time Storage Listener -->
+    <script>
+        // Default Storage Fallbacks
+        const DEFAULT_SETTINGS = {
+            storeName: "Maison & Co.",
+            tagline: "Festive Luxury Collection 2026",
+            heroTitle: "Elegance Wrapped in Mystique",
+            heroSubtitle: "Handcrafted sarees, tailored silk silhouettes, and royal velvet couture designed for special moments.",
+            currency: "₹",
+            phone: "+91 98765 43210",
+            whatsapp: "919876543210",
+            email: "concierge@maisonboutique.com",
+            showBanner: true,
+            bannerText: "✨ Festive Sale: Up to 25% OFF on Luxe Silk Collections",
+            timerHours: "04",
+            instagramUrl: "https://instagram.com",
+            facebookUrl: "https://facebook.com",
+            waCommunityUrl: "https://chat.whatsapp.com"
+        };
+
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 1,
+                name: "Aurelia Raw Silk Trench",
+                price: 24999,
+                originalPrice: 32000,
+                badge: "Bestseller",
+                image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800"
+            },
+            {
+                id: 2,
+                name: "Monaco Pashmina Knit Set",
+                price: 16500,
+                originalPrice: 19999,
+                badge: "New Drop",
+                image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800"
+            },
+            {
+                id: 3,
+                name: "Verona Velvet Suit & Dupatta",
+                price: 28000,
+                originalPrice: 35000,
+                badge: "Royal Edit",
+                image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800"
+            }
+        ];
+
+        // Global State
+        let storeSettings = {};
+        let productsList = [];
+        let shoppingCart = JSON.parse(localStorage.getItem('maison_cart')) || [];
+        let timerInterval = null;
+
+        // Core Real-Time Sync Function
+        function syncFromStorage() {
+            // Load or initialize Settings
+            const rawSettings = localStorage.getItem('boutique_settings');
+            if (rawSettings) {
+                try { storeSettings = JSON.parse(rawSettings); } 
+                catch(e) { storeSettings = { ...DEFAULT_SETTINGS }; }
+            } else {
+                storeSettings = { ...DEFAULT_SETTINGS };
+            }
+
+            // Load or initialize Products
+            const rawProducts = localStorage.getItem('boutique_products');
+            if (rawProducts) {
+                try { productsList = JSON.parse(rawProducts); } 
+                catch(e) { productsList = [...DEFAULT_PRODUCTS]; }
+            } else {
+                productsList = [...DEFAULT_PRODUCTS];
+            }
+
+            // Apply synced store settings to DOM elements
+            applySettingsToDOM();
+            
+            // Render products grid
+            renderProductsGrid();
+            
+            // Update cart UI
+            updateCartUI();
+        }
+
+        function applySettingsToDOM() {
+            const s = storeSettings;
+            
+            // Site Titles & Branding
+            document.title = `${s.storeName || 'Maison & Co.'} | Luxury Couture Boutique`;
+            
+            const brandHtml = `${s.storeName ? s.storeName.replace('&', '<span class="text-gold-400">&</span>') : 'Maison <span class="text-gold-400">&</span> Co.'}`;
+            document.getElementById('brandLogoText').innerHTML = brandHtml;
+            document.getElementById('footerBrandLogo').innerHTML = brandHtml;
+            document.getElementById('footerCopyrightName').textContent = s.storeName || 'Maison & Co.';
+
+            // Banner Visibility & Banner Text
+            const bannerEl = document.getElementById('offerBanner');
+            if (s.showBanner === false) {
+                bannerEl.classList.add('hidden');
+            } else {
+                bannerEl.classList.remove('hidden');
+            }
+            if (s.bannerText) document.getElementById('offerBannerText').textContent = s.bannerText;
+            if (s.timerHours) document.getElementById('timerHours').textContent = String(s.timerHours).padStart(2, '0');
+
+            // Hero Section Updates
+            if (s.tagline) document.getElementById('heroTagline').textContent = s.tagline;
+            if (s.heroTitle) document.getElementById('heroTitle').textContent = s.heroTitle;
+            if (s.heroSubtitle) document.getElementById('heroSubtitle').textContent = s.heroSubtitle;
+
+            // WhatsApp Direct Links Formatting
+            const waNumber = (s.whatsapp || '919876543210').replace(/[^0-9]/g, '');
+            const defaultMsg = encodeURIComponent(`Hello ${s.storeName || 'Maison & Co.'}, I would like to inquire about your luxury collection.`);
+            const waUrl = `https://wa.me/${waNumber}?text=${defaultMsg}`;
+
+            document.getElementById('heroWhatsappBtn').href = waUrl;
+            document.getElementById('floatingWhatsappBtn').href = `https://wa.me/${waNumber}`;
+
+            // Footer Contact Details
+            if (s.phone) document.getElementById('footerPhone').textContent = s.phone;
+            if (s.email) document.getElementById('footerEmail').textContent = s.email;
+
+            // Social & WhatsApp Group Links
+            if (s.instagramUrl) document.getElementById('footerInstagram').href = s.instagramUrl;
+            if (s.facebookUrl) document.getElementById('footerFacebook').href = s.facebookUrl;
+            if (s.whatsapp) document.getElementById('footerWhatsapp').href = `https://wa.me/${waNumber}`;
+
+            if (s.waCommunityUrl) {
+                document.getElementById('headerWaCommunityBtn').href = s.waCommunityUrl;
+                document.getElementById('mobileWaCommunityBtn').href = s.waCommunityUrl;
+            }
+        }
+
+        function renderProductsGrid() {
+            const grid = document.getElementById('productsGrid');
+            const currency = storeSettings.currency || '₹';
+
+            if (!productsList || productsList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-3 text-center py-16 text-purple-300/60">
+                        <i class="fa-solid fa-box-open text-5xl mb-3"></i>
+                        <p class="text-base">No items available in the catalog right now.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = productsList.map(p => `
+                <div class="bg-purple-900/30 border border-purple-800/40 rounded-3xl overflow-hidden card-glow transition duration-300 flex flex-col justify-between">
+                    <div class="relative h-96 overflow-hidden bg-purple-950">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition transform duration-700 hover:scale-105" onerror="this.src='https://placehold.co/600x800/1A0B2E/E5C158?text=Luxury+Couture'">
+                        ${p.badge ? `<span class="absolute top-4 left-4 bg-purple-950/85 backdrop-blur-md border border-gold-500/40 text-gold-400 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-white">${p.name}</h3>
+                            <div class="flex items-baseline gap-2 mt-2">
+                                <span class="text-gold-400 font-bold text-lg">${currency}${Number(p.price).toLocaleString()}</span>
+                                ${p.originalPrice ? `<span class="text-xs text-purple-400/60 line-through">${currency}${Number(p.originalPrice).toLocaleString()}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <button onclick="addToCart(${p.id})" class="bg-purple-800 hover:bg-purple-700 text-white text-xs font-bold py-3 rounded-xl transition uppercase tracking-wider flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-bag-shopping"></i> Add To Bag
+                            </button>
+                            <button onclick="buyOnWhatsapp(${p.id})" class="border border-emerald-500/50 hover:bg-emerald-600/20 text-emerald-400 text-xs font-bold py-3 rounded-xl transition uppercase tracking-wider flex items-center justify-center gap-1.5">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const product = productsList.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = shoppingCart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                shoppingCart.push({ ...product, qty: 1 });
+            }
+            
+            saveCartState();
+            toggleCartDrawer(true);
+        }
+
+        function updateCartQty(productId, delta) {
+            const item = shoppingCart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                shoppingCart = shoppingCart.filter(i => i.id !== productId);
+            }
+            saveCartState();
+        }
+
+        function saveCartState() {
+            localStorage.setItem('maison_cart', JSON.stringify(shoppingCart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const currency = storeSettings.currency || '₹';
+            const countEl = document.getElementById('cartCount');
+            const totalQty = shoppingCart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.textContent = totalQty;
+
+            const container = document.getElementById('cartItemsContainer');
+            if (shoppingCart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-purple-300/50 space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl"></i>
+                        <p class="text-sm">Your shopping bag is currently empty.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = shoppingCart.map(item => `
+                    <div class="flex items-center gap-4 bg-purple-900/30 p-3.5 rounded-2xl border border-purple-800/40">
+                        <img src="${item.image}" class="w-16 h-20 object-cover rounded-xl" onerror="this.src='https://placehold.co/100x120/1A0B2E/E5C158?text=Item'">
+                        <div class="flex-1">
+                            <h4 class="text-xs font-bold text-white font-serif">${item.name}</h4>
+                            <p class="text-gold-400 text-xs mt-1 font-semibold">${currency}${(item.price * item.qty).toLocaleString()}</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <button onclick="updateCartQty(${item.id}, -1)" class="w-6 h-6 bg-purple-800 hover:bg-purple-700 rounded-full text-xs text-white flex items-center justify-center">-</button>
+                                <span class="text-xs text-white font-bold">${item.qty}</span>
+                                <button onclick="updateCartQty(${item.id}, 1)" class="w-6 h-6 bg-purple-800 hover:bg-purple-700 rounded-full text-xs text-white flex items-center justify-center">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cartSubtotal').textContent = `${currency}${subtotal.toLocaleString()}`;
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            if (open) {
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.add('hidden');
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function openVipModal() {
+            document.getElementById('vipModal').classList.remove('hidden');
+        }
+
+        function closeVipModal() {
+            document.getElementById('vipModal').classList.add('hidden');
+        }
+
+        function submitVipForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('vipName').value;
+            closeVipModal();
+            alert(`Welcome ${name}! Your VIP 15% discount voucher code "VIP15" has been issued.`);
+        }
+
+        function checkoutWhatsApp() {
+            if (shoppingCart.length === 0) {
+                alert("Your shopping bag is empty!");
+                return;
+            }
+            const currency = storeSettings.currency || '₹';
+            const waNumber = (storeSettings.whatsapp || '919876543210').replace(/[^0-9]/g, '');
+            
+            let message = `Hello ${storeSettings.storeName || 'Maison & Co.'}, I would like to place an order for:\n\n`;
+            shoppingCart.forEach((item, idx) => {
+                message += `${idx + 1}. ${item.name} (Qty: ${item.qty}) - ${currency}${(item.price * item.qty).toLocaleString()}\n`;
+            });
+            const subtotal = shoppingCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            message += `\n*Subtotal: ${currency}${subtotal.toLocaleString()}*\n\nPlease assist me with billing and delivery options.`;
+
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function buyOnWhatsapp(productId) {
+            const product = productsList.find(p => p.id === productId);
+            if (!product) return;
+
+            const currency = storeSettings.currency || '₹';
+            const waNumber = (storeSettings.whatsapp || '919876543210').replace(/[^0-9]/g, '');
+            const message = `Hello ${storeSettings.storeName || 'Maison & Co.'}, I am interested in purchasing the *${product.name}* priced at ${currency}${product.price.toLocaleString()}. Please confirm availability.`;
+
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Timer Countdown logic
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            let totalSeconds = 16125;
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) return;
+                totalSeconds--;
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                document.getElementById('timerHours').textContent = String(h).padStart(2, '0');
+                document.getElementById('timerMins').textContent = String(m).padStart(2, '0');
+                document.getElementById('timerSecs').textContent = String(s).padStart(2, '0');
+            }, 1000);
+        }
+
+        // Initialize and Listen for Real-Time Local Storage Changes
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial Sync
+            syncFromStorage();
+            startTimer();
+
+            // REAL-TIME STORAGE EVENT LISTENER
+            // Triggers automatically whenever admin.html updates boutique_settings or boutique_products!
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'boutique_settings' || e.key === 'boutique_products') {
+                    syncFromStorage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

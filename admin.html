@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison & Co. | Admin Control Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            950: '#0F051D',
+                            900: '#1A0B2E',
+                            800: '#2A1245',
+                            700: '#3B1A60',
+                            400: '#9D65C9',
+                        },
+                        gold: {
+                            400: '#E5C158',
+                            500: '#D4AF37',
+                            600: '#B89028',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-purple-950 text-purple-100 font-sans min-h-screen selection:bg-purple-400 selection:text-purple-950">
+
+    <!-- Header / Navbar -->
+    <header class="bg-purple-900/90 border-b border-purple-800/80 sticky top-0 z-30 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-sliders text-gold-400"></i> Admin Control Portal
+                </h1>
+                <p class="text-xs text-purple-300/70 mt-1">Manage store settings, offer banners, social channels, and inventory in real-time.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" target="_blank" class="bg-gradient-to-r from-gold-500 to-gold-600 text-purple-950 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:brightness-110 transition flex items-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-store"></i> View Public Store
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 space-y-8">
+
+        <!-- Toast Notification -->
+        <div id="saveToast" class="hidden bg-emerald-600/90 text-white p-4 rounded-xl text-center text-xs font-bold shadow-lg border border-emerald-400">
+            <i class="fa-solid fa-circle-check"></i> Settings and catalog saved! Check your storefront tab to see live changes.
+        </div>
+
+        <!-- Store Configuration Section -->
+        <div class="bg-purple-900/40 border border-purple-800/60 p-6 rounded-2xl space-y-6 shadow-xl">
+            <h2 class="text-lg font-bold text-white border-b border-purple-800/60 pb-3 flex items-center gap-2">
+                <i class="fa-solid fa-gear text-gold-400"></i> Store Identity & General Settings
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-2">Boutique / Store Name</label>
+                    <input type="text" id="adminStoreName" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-2">Currency Symbol</label>
+                    <input type="text" id="adminCurrency" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400" placeholder="₹ or $ or €">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-2">Display Contact Phone</label>
+                    <input type="text" id="adminPhone" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-2">WhatsApp Order Number (Digits with country code)</label>
+                    <input type="text" id="adminWhatsapp" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400" placeholder="e.g. 919876543210">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold text-purple-200 mb-2">Concierge Email</label>
+                    <input type="email" id="adminEmail" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+            </div>
+
+            <!-- Social Media & WhatsApp Community -->
+            <div class="border-t border-purple-800/60 pt-6 space-y-4">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes text-gold-400"></i> Social Media & WhatsApp Group / Community Links
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">
+                            <i class="fa-brands fa-instagram text-pink-400 mr-1"></i> Instagram URL
+                        </label>
+                        <input type="url" id="adminInstagram" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400" placeholder="https://instagram.com/yourhandle">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">
+                            <i class="fa-brands fa-facebook-f text-blue-400 mr-1"></i> Facebook Page URL
+                        </label>
+                        <input type="url" id="adminFacebook" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400" placeholder="https://facebook.com/yourpage">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">
+                            <i class="fa-solid fa-users text-emerald-400 mr-1"></i> WhatsApp Community Invite Link
+                        </label>
+                        <input type="url" id="adminWaCommunity" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400" placeholder="https://chat.whatsapp.com/yourgroupid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner & Countdown Control -->
+            <div class="border-t border-purple-800/60 pt-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Festive Sale Top Banner</h3>
+                        <p class="text-xs text-purple-300/70">Turn the discount banner and countdown timer on or off.</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="adminShowBanner" class="sr-only peer">
+                        <div class="w-11 h-6 bg-purple-950 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold-500"></div>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">Banner Offer Message</label>
+                        <input type="text" id="adminBannerText" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">Timer Countdown (Hours)</label>
+                        <input type="number" id="adminTimerHours" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Text Customization -->
+            <div class="border-t border-purple-800/60 pt-6 space-y-4">
+                <h3 class="font-bold text-white text-sm">Main Banner Headline & Subtitle</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">Tagline / Collection Badge</label>
+                        <input type="text" id="adminTagline" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">Main Headline</label>
+                        <input type="text" id="adminHeroTitle" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-2">Subtitle / Description</label>
+                        <textarea id="adminHeroSubtitle" rows="2" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-400"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="saveGeneralSettings()" class="bg-gradient-to-r from-gold-500 to-gold-600 text-purple-950 font-bold px-8 py-3.5 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 transition shadow-md">
+                <i class="fa-solid fa-floppy-disk mr-1"></i> Save Store Settings
+            </button>
+        </div>
+
+        <!-- Manage Inventory Catalog -->
+        <div class="bg-purple-900/40 border border-purple-800/60 p-6 rounded-2xl space-y-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-purple-800/60 pb-3">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-box-open text-gold-400"></i> Product Catalog Management
+                </h2>
+                <button onclick="openProductModal()" class="bg-purple-800 hover:bg-purple-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Add Product
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="adminProductsList">
+                <!-- Product Items Render Dynamically Here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Adding / Editing Products -->
+    <div id="productModal" class="fixed inset-0 bg-purple-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-purple-900 border border-purple-700/60 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-purple-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="modalTitle" class="text-xl font-bold text-white mb-4">Add Product</h3>
+            
+            <form onsubmit="handleProductSave(event)" class="space-y-4">
+                <input type="hidden" id="editProductId">
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-1">Product Title</label>
+                    <input type="text" id="pName" required class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-1">Selling Price</label>
+                        <input type="number" id="pPrice" required class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-purple-200 mb-1">Original Price (optional)</label>
+                        <input type="number" id="pOriginalPrice" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-1">Badge Tag (e.g. Bestseller, New Arrival)</label>
+                    <input type="text" id="pBadge" class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-1">Product Image URL</label>
+                    <input type="url" id="pImage" required class="w-full bg-purple-950 border border-purple-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400">
+                </div>
+
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" onclick="closeProductModal()" class="px-5 py-2.5 bg-purple-950 text-purple-300 rounded-xl text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 bg-gold-500 text-purple-950 font-bold rounded-xl text-xs uppercase hover:brightness-110 transition">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Sync Logic -->
+    <script>
+        const defaultSettings = {
+            storeName: "Maison & Co.",
+            tagline: "Festive Luxury Collection 2026",
+            heroTitle: "Elegance Wrapped in Mystique",
+            heroSubtitle: "Handcrafted sarees, tailored silk silhouettes, and royal velvet couture designed for special moments.",
+            heroImage: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600",
+            phone: "+91 98765 43210",
+            whatsapp: "919876543210",
+            email: "concierge@maisonboutique.com",
+            currency: "₹",
+            showBanner: true,
+            bannerText: "✨ Festive Sale: Up to 25% OFF on Luxe Silk Collections",
+            timerHours: "04",
+            timerMins: "28",
+            instagramUrl: "https://instagram.com",
+            facebookUrl: "https://facebook.com",
+            waCommunityUrl: "https://chat.whatsapp.com"
+        };
+
+        const defaultProducts = [
+            { id: 1, name: "Aurelia Raw Silk Trench", price: 24999, originalPrice: 32000, badge: "Bestseller", image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800" },
+            { id: 2, name: "Monaco Pashmina Knit Set", price: 16500, originalPrice: 19999, badge: "New Drop", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800" },
+            { id: 3, name: "Verona Velvet Suit & Dupatta", price: 28000, originalPrice: 35000, badge: "Royal Edit", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800" }
+        ];
+
+        let storeSettings = JSON.parse(localStorage.getItem('boutique_settings')) || defaultSettings;
+        let products = JSON.parse(localStorage.getItem('boutique_products')) || defaultProducts;
+
+        function loadAdminValues() {
+            document.getElementById('adminStoreName').value = storeSettings.storeName || '';
+            document.getElementById('adminCurrency').value = storeSettings.currency || '₹';
+            document.getElementById('adminPhone').value = storeSettings.phone || '';
+            document.getElementById('adminWhatsapp').value = storeSettings.whatsapp || '';
+            document.getElementById('adminEmail').value = storeSettings.email || '';
+            document.getElementById('adminShowBanner').checked = storeSettings.showBanner ?? true;
+            document.getElementById('adminBannerText').value = storeSettings.bannerText || '';
+            document.getElementById('adminTimerHours').value = storeSettings.timerHours || '04';
+            document.getElementById('adminTagline').value = storeSettings.tagline || '';
+            document.getElementById('adminHeroTitle').value = storeSettings.heroTitle || '';
+            document.getElementById('adminHeroSubtitle').value = storeSettings.heroSubtitle || '';
+
+            document.getElementById('adminInstagram').value = storeSettings.instagramUrl || '';
+            document.getElementById('adminFacebook').value = storeSettings.facebookUrl || '';
+            document.getElementById('adminWaCommunity').value = storeSettings.waCommunityUrl || '';
+
+            renderAdminProducts();
+        }
+
+        function saveGeneralSettings() {
+            storeSettings.storeName = document.getElementById('adminStoreName').value;
+            storeSettings.currency = document.getElementById('adminCurrency').value;
+            storeSettings.phone = document.getElementById('adminPhone').value;
+            storeSettings.whatsapp = document.getElementById('adminWhatsapp').value;
+            storeSettings.email = document.getElementById('adminEmail').value;
+            storeSettings.showBanner = document.getElementById('adminShowBanner').checked;
+            storeSettings.bannerText = document.getElementById('adminBannerText').value;
+            storeSettings.timerHours = document.getElementById('adminTimerHours').value;
+            storeSettings.tagline = document.getElementById('adminTagline').value;
+            storeSettings.heroTitle = document.getElementById('adminHeroTitle').value;
+            storeSettings.heroSubtitle = document.getElementById('adminHeroSubtitle').value;
+
+            storeSettings.instagramUrl = document.getElementById('adminInstagram').value;
+            storeSettings.facebookUrl = document.getElementById('adminFacebook').value;
+            storeSettings.waCommunityUrl = document.getElementById('adminWaCommunity').value;
+
+            localStorage.setItem('boutique_settings', JSON.stringify(storeSettings));
+
+            const toast = document.getElementById('saveToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        function renderAdminProducts() {
+            const container = document.getElementById('adminProductsList');
+            if(products.length === 0) {
+                container.innerHTML = `<p class="text-xs text-purple-300 col-span-3 text-center py-6">No products found. Click "Add Product" to create your first item.</p>`;
+                return;
+            }
+
+            container.innerHTML = products.map(p => `
+                <div class="bg-purple-950 p-4 rounded-xl border border-purple-800/60 space-y-3 shadow">
+                    <img src="${p.image}" class="w-full h-40 object-cover rounded-lg">
+                    <div>
+                        <span class="text-[10px] text-gold-400 font-bold uppercase">${p.badge || 'Item'}</span>
+                        <h4 class="font-bold text-white text-sm truncate">${p.name}</h4>
+                        <p class="text-xs text-purple-300 font-semibold mt-1">${storeSettings.currency}${Number(p.price).toLocaleString()}</p>
+                    </div>
+                    <div class="flex gap-2 pt-2 border-t border-purple-800/40">
+                        <button onclick="editProduct(${p.id})" class="flex-1 bg-purple-800 hover:bg-purple-700 text-white text-xs py-2 rounded-lg font-semibold">Edit</button>
+                        <button onclick="deleteProduct(${p.id})" class="px-3 bg-red-900/60 hover:bg-red-800 text-red-200 text-xs py-2 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductModal() {
+            document.getElementById('editProductId').value = '';
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pOriginalPrice').value = '';
+            document.getElementById('pBadge').value = '';
+            document.getElementById('pImage').value = '';
+            document.getElementById('modalTitle').textContent = 'Add New Product';
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('pName').value = p.name;
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pOriginalPrice').value = p.originalPrice || '';
+            document.getElementById('pBadge').value = p.badge || '';
+            document.getElementById('pImage').value = p.image;
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function handleProductSave(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const productData = {
+                id: editId ? Number(editId) : Date.now(),
+                name: document.getElementById('pName').value,
+                price: Number(document.getElementById('pPrice').value),
+                originalPrice: document.getElementById('pOriginalPrice').value ? Number(document.getElementById('pOriginalPrice').value) : null,
+                badge: document.getElementById('pBadge').value,
+                image: document.getElementById('pImage').value
+            };
+
+            if (editId) {
+                const index = products.findIndex(x => x.id === Number(editId));
+                if (index !== -1) products[index] = productData;
+            } else {
+                products.push(productData);
+            }
+
+            localStorage.setItem('boutique_products', JSON.stringify(products));
+            renderAdminProducts();
+            closeProductModal();
+
+            const toast = document.getElementById('saveToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(x => x.id !== id);
+                localStorage.setItem('boutique_products', JSON.stringify(products));
+                renderAdminProducts();
+            }
+        }
+
+        // Initialize Admin Dashboard
+        loadAdminValues();
+    </script>
+</body>
+</html>
